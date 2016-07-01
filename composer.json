@@ -1,0 +1,25 @@
+{
+    "name": "flex/crypto",
+    "description": "Encryption libraries",
+    "license": "proprietary",
+	"config": {
+		"secure-http": false
+	},
+    "autoload": {
+        "psr-4": {
+            "Flex\\Crypto\\": "lib/"
+        }
+    },
+    "require": {
+        "php": ">=5.3"
+    },
+	"require-dev": {
+        "atoum/atoum": "2.*"
+    },
+	"repositories": [
+        {
+            "type": "composer",
+            "url": "http://packagist.flex-multimedia.dev/"
+        }
+    ]
+}
