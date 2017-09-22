@@ -77,7 +77,7 @@ Encrypt
 	];
 	
 	$substitution = new \Flex\Crypto\Substitution('mykey', $pbox);
-	$my_string_crypted = $asymetric->encrypt('my string');
+	$my_string_crypted = $substitution->encrypt('my string');
 
 Decrypt
 
@@ -88,6 +88,6 @@ Decrypt
 	];
 	
 	$substitution = new \Flex\Crypto\Substitution('mykey', $pbox);
-	$my_string_decrypted = $asymetric->decrypt($my_string_crypted);
+	$my_string_decrypted = $substitution->decrypt($my_string_crypted);
 
 
