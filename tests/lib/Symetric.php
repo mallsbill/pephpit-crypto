@@ -1,12 +1,10 @@
 <?php
 namespace Flex\Crypto\tests\units;
 
-require_once realpath(dirname(__FILE__)).'/../config/config.php';
-
 use Flex\Crypto\Symetric as TestedClass;
 use	mageekguy\atoum;
 
-Class Symetric extends atoum\test {
+class Symetric extends atoum\test {
 
 	public function testCryptDecrypt() {
 
