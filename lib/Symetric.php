@@ -2,11 +2,11 @@
 namespace Flex\Crypto;
 
 /**
- *	Abstraction class for mcrypt
- *	@var		string	$cipher		Algorithm
- *	@var		string	$mode		Mode
- *	@var		string	$key		Key
- *	@var		string	$iv			Initialization vector
+ * Abstraction class for mcrypt
+ * @var string $cipher Algorithm
+ * @var string $mode Mode
+ * @var string $key Key
+ * @var string $iv Initialization vector
  */
 class Symetric {
 
@@ -16,10 +16,10 @@ class Symetric {
 	private $iv;
 
 	/**
-	 *	Constructeur
-	 *	@param	string	$cipher	Algorithm
-	 *	@param	string	$mode	Mode
-	 *	@param	string	$key	Key
+	 * Constructeur
+	 * @param string $cipher Algorithm
+	 * @param string $mode Mode
+	 * @param string $key Key
 	 */
 	public function __construct ($cipher, $mode, $key) {
 		if(!in_array($cipher, $this->getCiphers()))
@@ -43,8 +43,8 @@ class Symetric {
 	}
 
 	/**
-	 *	Opens the module of the algorithm and the mode to be used
-	 *	@return	resource	$module	Encryption descriptor
+	 * Opens the module of the algorithm and the mode to be used
+	 * @return resource $module Encryption descriptor
 	 */
 	private function open () {
 		if(($module = mcrypt_module_open($this->cipher, '', $this->mode, '')) === false) {
@@ -56,15 +56,15 @@ class Symetric {
 
 	/**
 	 * Closes the mcrypt module
-	 * @param	resource	$module	Encryption descriptor
+	 * @param resource $module Encryption descriptor
 	 */
 	private function close ($module) {
 		mcrypt_module_close($module);
 	}
 
 	/**
-	 *	Create initialization vector
-	 *  @param	resource	$module
+	 * Create initialization vector
+	 * @param resource $module
 	 */
 	private function createIV ($module) {
 		$iv_size = mcrypt_enc_get_iv_size($module);
@@ -86,9 +86,9 @@ class Symetric {
 	}
 
 	/**
-	 *	Encrypt a string
-	 *	@param		string	$string	String to crypt
-	 *	@return		string	$res	Crypted string
+	 * Encrypt a string
+	 * @param string $string String to encrypt
+	 * @return string $crypt Encrypted and base64 encoded string
 	 */
 	public function encrypt ($string) {
 		$module = $this->open();
@@ -96,18 +96,18 @@ class Symetric {
 		$this->createIV($module);
 
 		mcrypt_generic_init($module, $this->key, $this->iv);
-		$res = mcrypt_generic($module, $string);
+		$crypt = mcrypt_generic($module, $string);
 		mcrypt_generic_deinit($module);
 		
 		$this->close($module);
 
-		return base64_encode($this->iv.$res);
+		return base64_encode($this->iv.$crypt);
 	}
 
 	/**
-	 *	Decrypt crypted string
-	 *	@param		string	$crypt_encode	Crypted string base64 encoded
-	 *	@return		string	$res	Decrypted string
+	 * Decrypt crypted string
+	 * @param string $crypt_encode Crypted and base64 encoded string
+	 * @return string $string Decrypted string
 	 */
 	public function decrypt ($crypt_encode) {
 		$module = $this->open();
@@ -116,15 +116,19 @@ class Symetric {
 
 		$crypt_decode = base64_decode($crypt_encode);
 
+		if($crypt_decode === false) {
+			throw new Exception('Unable to decode the crypt');
+		}
+
 		$this->iv = substr($crypt_decode, 0, $iv_size);
 		$crypt = substr($crypt_decode, $iv_size);
 
 		if($crypt != ''){
 			mcrypt_generic_init($module, $this->key, $this->iv);
-			$res = mdecrypt_generic($module, $crypt);
+			$string = mdecrypt_generic($module, $crypt);
 			mcrypt_generic_deinit($module);
 			$this->close($module);
-			return $res;
+			return $string;
 		}
 		else {
 			return false;
@@ -133,16 +137,16 @@ class Symetric {
 	}
 
 	/**
-	 *	Gets an array of all supported modes
-	 *	@return	array	Returns an array with all the supported modes
+	 * Gets an array of all supported modes
+	 * @return array Returns an array with all the supported modes
 	 */
 	public function getModes(){
 		return mcrypt_list_modes();
 	}
 
 	/**
-	 *	Gets an array of all supported ciphers
-	 *	@return	array	Returns an array with all the supported algorithms
+	 * Gets an array of all supported ciphers
+	 * @return array Returns an array with all the supported algorithms
 	 */
 	public function getCiphers(){
 		return mcrypt_list_algorithms();
