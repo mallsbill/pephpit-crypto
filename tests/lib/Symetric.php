@@ -53,12 +53,12 @@ class Symetric extends atoum\test {
 		$key = 'xcCLTuw1rv';
 		$string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
 
-		$symetric = new TestedClass("bf-ofb", null, $key);
+		$symetric = new TestedClass("cast5-cfb", null, $key);
 		$crypt = $symetric->encrypt($string);
 
 		$this->string($crypt)->isNotEmpty();
 		
-		$symetric = new TestedClass("bf-ofb", null, $key);
+		$symetric = new TestedClass("cast5-cfb", null, $key);
 		$decrypt = $symetric->decrypt($crypt);
 
 		$this->string($decrypt)->isEqualTo($string);
