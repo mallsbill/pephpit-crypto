@@ -26,12 +26,12 @@ Exemple d'utilisation cryptage Symetric
 
 Encrypt
 
-	$symetric = new \Flex\Crypto\Symetric(MCRYPT_BLOWFISH, MCRYPT_MODE_NOFB, 'mykey');
+	$symetric = new \Flex\Crypto\Symetric('bf-ofb', null, 'mykey');
 	$my_string_crypted = $symetric->encrypt('my string');
 
 Decrypt
 
-	$symetric = new \Flex\Crypto\Symetric(MCRYPT_BLOWFISH, MCRYPT_MODE_NOFB, 'mykey');
+	$symetric = new \Flex\Crypto\Symetric('bf-ofb', null, 'mykey');
 	$my_string_decrypted = $symetric->decrypt($my_string_crypted);
 
 Exemple d'utilisation cryptage Asymetric
