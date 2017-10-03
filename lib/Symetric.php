@@ -22,60 +22,48 @@ class Symetric {
 	 * @param string $key Key
 	 */
 	public function __construct ($cipher, $mode, $key) {
-		if(!in_array($cipher, $this->getCiphers()))
-			throw new Exception('Cipher not available');
+		
+		if(!in_array($cipher, $this->getCiphers())) {
+			$cipher = Mcrypt2Openssl::get($cipher, $mode, strlen($key));
 
-		$this->cipher = $cipher;
+			if(empty($cipher) || !in_array($cipher, $this->getCiphers()))
+				throw new Exception('Cipher not available');
+		}
 
-		if(!in_array($mode, $this->getModes()))
-			throw new Exception('Mode not available');
-
-		$this->mode = $mode;
-
-		$keysize = mcrypt_get_key_size($this->cipher, $this->mode);
+		$keysize = Mcrypt2Openssl::getKeySize($cipher);
 		if(strlen($key) < $keysize){
 			$key = substr(md5($key), 0, $keysize);
 		}
 		elseif(strlen($key) > $keysize){
 			$key = substr($key, 0, $keysize);
 		}
+
+		$this->cipher = $cipher;
+		$this->mode = $mode;
 		$this->key = $key;
 	}
 
-	/**
-	 * Opens the module of the algorithm and the mode to be used
-	 * @return resource $module Encryption descriptor
-	 */
-	private function open () {
-		if(($module = mcrypt_module_open($this->cipher, '', $this->mode, '')) === false) {
-			throw new Exception('Unable to open the module');
-		}
-
-		return $module;
-	}
-
-	/**
-	 * Closes the mcrypt module
-	 * @param resource $module Encryption descriptor
-	 */
-	private function close ($module) {
-		mcrypt_module_close($module);
+	public function getKey() {
+		return $this->key;
 	}
 
 	/**
 	 * Create initialization vector
-	 * @param resource $module
 	 */
-	private function createIV ($module) {
-		$iv_size = mcrypt_enc_get_iv_size($module);
+	private function createIV() {
+		$iv_size = openssl_cipher_iv_length($this->cipher);
 
 		if(!empty($this->iv) && strlen($this->iv) == $iv_size)
 			return;
 
-		if(false === $this->iv = mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)){
+		if(false === $this->iv = openssl_random_pseudo_bytes($iv_size)){
 			throw new Exception('Unable to create initialization vector');
 		}
 	}
+    
+    public function getIV() {
+        return $this->iv;
+    }
 
 	/**
 	 *	Define initialization vector
@@ -91,15 +79,9 @@ class Symetric {
 	 * @return string $crypt Encrypted and base64 encoded string
 	 */
 	public function encrypt ($string) {
-		$module = $this->open();
+		$this->createIV();
 
-		$this->createIV($module);
-
-		mcrypt_generic_init($module, $this->key, $this->iv);
-		$crypt = mcrypt_generic($module, $string);
-		mcrypt_generic_deinit($module);
-		
-		$this->close($module);
+		$crypt = openssl_encrypt($string, $this->cipher, $this->key, OPENSSL_RAW_DATA, $this->iv);
 
 		return base64_encode($this->iv.$crypt);
 	}
@@ -110,24 +92,24 @@ class Symetric {
 	 * @return string $string Decrypted string
 	 */
 	public function decrypt ($crypt_encode) {
-		$module = $this->open();
-
-		$iv_size = mcrypt_enc_get_iv_size($module);
 
 		$crypt_decode = base64_decode($crypt_encode);
 
 		if($crypt_decode === false) {
 			throw new Exception('Unable to decode the crypt');
 		}
-
+		
+		$iv_size = openssl_cipher_iv_length($this->cipher);
+		
 		$this->iv = substr($crypt_decode, 0, $iv_size);
 		$crypt = substr($crypt_decode, $iv_size);
-
+		
 		if($crypt != ''){
-			mcrypt_generic_init($module, $this->key, $this->iv);
-			$string = mdecrypt_generic($module, $crypt);
-			mcrypt_generic_deinit($module);
-			$this->close($module);
+			$string = openssl_decrypt($crypt, $this->cipher, $this->key, OPENSSL_RAW_DATA, $this->iv);
+
+			if($string === false)
+				throw new Exception(openssl_error_string());
+
 			return $string;
 		}
 		else {
@@ -141,7 +123,7 @@ class Symetric {
 	 * @return array Returns an array with all the supported modes
 	 */
 	public function getModes(){
-		return mcrypt_list_modes();
+		return array();
 	}
 
 	/**
@@ -149,6 +131,7 @@ class Symetric {
 	 * @return array Returns an array with all the supported algorithms
 	 */
 	public function getCiphers(){
-		return mcrypt_list_algorithms();
+		return openssl_get_cipher_methods();
 	}
+
 }
