@@ -162,7 +162,7 @@ class Asymetric {
 
 		$decrypt = '';
 
-		if(openssl_public_decrypt($crypt, $decrypt, $key) == false) {
+		if(openssl_public_decrypt($crypt, $decrypt, $key, $this->padding) == false) {
 			throw new Exception(openssl_error_string());
 		}
 
@@ -195,7 +195,7 @@ class Asymetric {
 
 		$decrypt = '';
 
-		if(openssl_private_decrypt($crypt, $decrypt, $key) == false) {
+		if(openssl_private_decrypt($crypt, $decrypt, $key, $this->padding) == false) {
 			throw new Exception(openssl_error_string());
 		}
 
