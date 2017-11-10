@@ -109,5 +109,23 @@ class Asymetric extends atoum\test {
 		$this->string($decrypt)->isEqualTo($string);
 	}
 
+	public function testCryptDecryptPublicFileSSLV23() {
+
+		$string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
+
+		$asymetric = new TestedClass();
+		$asymetric->setPublicKeyFile(realpath(dirname(__FILE__)).'/../key/public.crt');
+		$asymetric->setPadding(OPENSSL_SSLV23_PADDING);
+		$crypt = $asymetric->publicEncrypt($string);
+
+		$this->string($crypt)->isNotEmpty();
+
+		$asymetric = new TestedClass();
+		$asymetric->setPrivateKeyFile(realpath(dirname(__FILE__)).'/../key/private.key');
+		$decrypt = $asymetric->privateDecrypt($crypt);
+
+		$this->string($decrypt)->isEqualTo($string);
+	}
+
 
 }
