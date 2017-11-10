@@ -1,6 +1,6 @@
 <?php
-namespace Flex\PayFlex\Payment;
+namespace Flex\Crypto;
 
-Class Exception extends \Exception {
+class Exception extends \Exception {
 
 }
