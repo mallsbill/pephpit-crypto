@@ -16,7 +16,6 @@ class Asymetric extends atoum\test {
 
 		$asymetric = new TestedClass();
 		$asymetric->setPublicKey($public_key);
-		$asymetric->setPadding(OPENSSL_SSLV23_PADDING);
 		$crypt = $asymetric->publicEncrypt($string);
 
 		$this->string($crypt)->isNotEmpty();
@@ -87,6 +86,25 @@ class Asymetric extends atoum\test {
 		$asymetric = new TestedClass();
 		$asymetric->setPublicKeyFile(realpath(dirname(__FILE__)).'/../key/public.crt');
 		$decrypt = $asymetric->publicDecrypt($crypt);
+
+		$this->string($decrypt)->isEqualTo($string);
+	}
+
+	public function testCryptDecryptPublicFileOAEP() {
+
+		$string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
+
+		$asymetric = new TestedClass();
+		$asymetric->setPublicKeyFile(realpath(dirname(__FILE__)).'/../key/public.crt');
+		$asymetric->setPadding(OPENSSL_PKCS1_OAEP_PADDING);
+		$crypt = $asymetric->publicEncrypt($string);
+		
+		$this->string($crypt)->isNotEmpty();
+
+		$asymetric = new TestedClass();
+		$asymetric->setPrivateKeyFile(realpath(dirname(__FILE__)).'/../key/private.key');
+		$asymetric->setPadding(OPENSSL_PKCS1_OAEP_PADDING);
+		$decrypt = $asymetric->privateDecrypt($crypt);
 
 		$this->string($decrypt)->isEqualTo($string);
 	}
