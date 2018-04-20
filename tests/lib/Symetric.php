@@ -94,7 +94,7 @@ class Symetric extends atoum\test {
         $key = 'xcCLTuw1rv';
 		$string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
 
-		$symetric = new TestedClass(MCRYPT_CAST_128, 'cfb', $key);
+		$symetric = new TestedClass(MCRYPT_CAST_128, 'ncfb', $key);
         $crypt = $symetric->encrypt($string);
 		$crypt_encoded = $symetric->encrypt($string);
 
