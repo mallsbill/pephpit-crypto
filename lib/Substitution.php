@@ -59,7 +59,7 @@ class Substitution {
 	/**
 	 * Encrypt a string
 	 * @param string $string String to encrypt
-	 * @return string Encrypted and base64 encoded string
+	 * @return string Encrypted
 	 */
 	public function encrypt($string) {
 		if(strlen($string) > count($this->pbox[0])) {
