@@ -14,6 +14,7 @@ class Symetric {
 	private $mode;
 	private $key;
 	private $iv;
+	private $encoding = 'base64';
 
 	/**
 	 * Constructeur
@@ -53,7 +54,7 @@ class Symetric {
 	private function createIV() {
 		$iv_size = openssl_cipher_iv_length($this->cipher);
 
-		if(!empty($this->iv) && strlen($this->iv) == $iv_size)
+		if($iv_size === 0 || !empty($this->iv) && strlen($this->iv) == $iv_size)
 			return;
 
 		if(false === $this->iv = openssl_random_pseudo_bytes($iv_size)){
@@ -72,6 +73,21 @@ class Symetric {
 	public function setIV ($iv) {
 		$this->iv = $iv;
 	}
+	
+	/**
+	 * Define enconding with base64
+	 */
+	public function setBase64Encoding() {
+		$this->encoding = 'base64';
+	}
+	
+	/**
+	 * Define enconding with bin2hex
+	 * Convert binary data into hexadecimal representation
+	 */
+	public function setHexEncoding() {
+		$this->encoding = 'bin2hex';
+	}
 
 	/**
 	 * Encrypt a string
@@ -83,7 +99,7 @@ class Symetric {
 
 		$crypt = openssl_encrypt($string, $this->cipher, $this->key, OPENSSL_RAW_DATA, $this->iv);
 
-		return base64_encode($this->iv.$crypt);
+		return $this->encode($this->iv.$crypt);
 	}
 
 	/**
@@ -93,7 +109,7 @@ class Symetric {
 	 */
 	public function decrypt ($crypt_encode) {
 
-		$crypt_decode = base64_decode($crypt_encode);
+		$crypt_decode = $this->decode($crypt_encode);
 
 		if($crypt_decode === false) {
 			throw new Exception('Unable to decode the crypt');
@@ -116,6 +132,22 @@ class Symetric {
 			return false;
 		}
 
+	}
+	
+	private function encode($string) {
+		if($this->encoding == 'bin2hex') {
+			return bin2hex($string);
+		} else {
+			return base64_encode($string);
+		}
+	}
+	
+	private function decode($string_encoded) {
+		if($this->encoding == 'bin2hex') {
+			return pack("H*", $string_encoded);
+		} else {
+			return base64_decode($string_encoded);
+		}
 	}
 
 	/**
