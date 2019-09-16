@@ -12,7 +12,7 @@ class Mcrypt2Openssl extends atoum\test {
 		$this->string($cipher)->isEqualTo('bf-cbc');
 
 		$cipher = TestedClass::get(MCRYPT_BLOWFISH, MCRYPT_MODE_CFB, 56);
-		$this->variable($cipher)->isNull();
+		$this->string($cipher)->isEqualTo('bf-cfb');
 
 		$cipher = TestedClass::get(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB, 56);
 		$this->string($cipher)->isEqualTo('bf-ecb');
@@ -24,7 +24,7 @@ class Mcrypt2Openssl extends atoum\test {
 		$this->string($cipher)->isEqualTo('bf-ofb');
 
 		$cipher = TestedClass::get(MCRYPT_BLOWFISH, MCRYPT_MODE_OFB, 56);
-		$this->variable($cipher)->isNull();
+		$this->string($cipher)->isEqualTo('bf-ofb');
 	}
 
 	public function testGetCast128() {

@@ -20,9 +20,9 @@ class Mcrypt2Openssl {
 				return 'bf-cbc';			
 			else if($mode == MCRYPT_MODE_ECB)
 				return 'bf-ecb';
-			else if($mode == 'ncfb')
+			else if($mode == 'ncfb' || $mode == MCRYPT_MODE_CFB)
 				return 'bf-cfb';
-			else if($mode == MCRYPT_MODE_NOFB)
+			else if($mode == MCRYPT_MODE_NOFB || $mode == MCRYPT_MODE_OFB)
 				return 'bf-ofb';
 		}
 		else if($cipher == MCRYPT_CAST_128) {
