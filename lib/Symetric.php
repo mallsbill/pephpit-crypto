@@ -33,7 +33,7 @@ class Symetric {
 
 		$keysize = Mcrypt2Openssl::getKeySize($cipher);
 		if(strlen($key) < $keysize){
-			$key = substr(md5($key), 0, $keysize);
+            $key = str_pad($key, $keysize, $key);
 		}
 		elseif(strlen($key) > $keysize){
 			$key = substr($key, 0, $keysize);
