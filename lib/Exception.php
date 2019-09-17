@@ -1,6 +1,7 @@
 <?php
 namespace Flex\Crypto;
 
-class Exception extends \Exception {
+class Exception extends \Exception
+{
 
 }
