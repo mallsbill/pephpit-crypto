@@ -11,15 +11,23 @@
         }
     },
     "require": {
-        "php": ">=5.3"
+        "php": ">=7.1"
     },
 	"require-dev": {
-        "atoum/atoum": "^3.0.0"
+        "atoum/atoum": "^3.0.0",
+        "atoum/stubs": "^2.6"
     },
 	"repositories": [
         {
             "type": "composer",
-            "url": "http://packagist.flex-multimedia.dev/"
+            "url": "http://packagist.flex-multimedia.tech/"
         }
-    ]
+    ],
+    "scripts": {
+        "test": "atoum -d tests/lib",
+        "atoum": "atoum"
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests!"
+    }
 }

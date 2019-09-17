@@ -57,10 +57,19 @@ class Symetric
     {
         $iv_size = openssl_cipher_iv_length($this->cipher);
 
-        if ($iv_size === 0 || !empty($this->iv) && strlen($this->iv) == $iv_size)
+        if ($iv_size === 0) {
             return;
+        }
 
-        if (false === $this->iv = openssl_random_pseudo_bytes($iv_size)) {
+        if (!empty($this->iv) && strlen($this->iv) === $iv_size) {
+            return;
+        } else if (!empty($this->iv)) {
+            trigger_error('Wrong size for the initialization vector, should be '.$iv_size.' long', E_USER_WARNING);
+        }
+
+        $this->iv = openssl_random_pseudo_bytes($iv_size);
+
+        if ($this->iv === false) {
             throw new Exception('Unable to create initialization vector');
         }
     }
@@ -74,7 +83,7 @@ class Symetric
      * 	Define initialization vector
      * 	@param string $iv Initialization vector
      */
-    public function setIV($iv)
+    public function setIV(string $iv)
     {
         $this->iv = $iv;
     }
@@ -153,7 +162,7 @@ class Symetric
     private function decode($string_encoded)
     {
         if ($this->encoding == 'bin2hex') {
-            return pack("H*", $string_encoded);
+            return hex2bin($string_encoded);
         } else {
             return base64_decode($string_encoded);
         }

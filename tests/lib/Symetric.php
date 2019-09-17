@@ -62,6 +62,7 @@ class Symetric extends atoum\test
         $crypt = $symetric->encrypt($string);
 
         $this->string($crypt)->isNotEmpty();
+        $this->string($symetric->getIV())->isNotEmpty();
 
         $symetric = new TestedClass("cast5-cfb", null, $key);
         $decrypt = $symetric->decrypt($crypt);
@@ -111,6 +112,62 @@ class Symetric extends atoum\test
         $crypt = substr($crypt_decode, 8);
 
         $decrypt = mcrypt_decrypt(MCRYPT_CAST_128, $symetric->getKey(), $crypt, 'ncfb', $iv);
+
+        $this->string($decrypt)->isEqualTo($string);
+    }
+
+    public function testCryptDecryptCAST128IV()
+    {
+
+        $key = 'xcCLTuw1rv';
+        $string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
+
+        $symetric = new TestedClass("cast5-cfb", null, $key);
+        $symetric->setIV(hex2bin('785eebbd7067b302'));
+        $crypt = $symetric->encrypt($string);
+
+        $this->string($crypt)->isNotEmpty();
+        $this->string($symetric->getIV())->isEqualTo(hex2bin('785eebbd7067b302'));
+
+        $symetric = new TestedClass("cast5-cfb", null, $key);
+        $decrypt = $symetric->decrypt($crypt);
+
+        $this->string($decrypt)->isEqualTo($string);
+    }
+
+    public function testCryptDecryptCAST128IVWrongSize()
+    {
+
+        $key = 'xcCLTuw1rv';
+        $string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
+
+        $symetric = new TestedClass("cast5-cfb", null, $key);
+        $symetric->setIV('785eebbd7067b302');
+        $this->when(
+            function() use ($symetric, $string) {
+                $crypt = $symetric->encrypt($string);
+                $this->string($crypt)->isNotEmpty();
+                $this->string($symetric->getIV())->isNotEqualTo('785eebbd7067b302');
+            }
+        )->error()->withType(E_USER_WARNING)->exists();
+    }
+
+    public function testHexEncoding()
+    {
+
+        $key = 'xcCLTuw1rv';
+        $string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
+
+        $symetric = new TestedClass("cast5-cfb", null, $key);
+        $symetric->setHexEncoding();
+        $crypt = $symetric->encrypt($string);
+
+        $this->string($crypt)->matches('/^[a-f0-9]+$/');
+        $this->integer(strlen($crypt) % 2)->isZero();
+
+        $symetric = new TestedClass("cast5-cfb", null, $key);
+        $symetric->setHexEncoding();
+        $decrypt = $symetric->decrypt($crypt);
 
         $this->string($decrypt)->isEqualTo($string);
     }
