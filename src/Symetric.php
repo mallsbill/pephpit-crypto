@@ -1,19 +1,20 @@
 <?php
-namespace Flex\Crypto;
 
-/**
- * Abstraction class for mcrypt
- * @var string $cipher Algorithm
- * @var string $mode Mode
- * @var string $key Key
- * @var string $iv Initialization vector
- */
+namespace Pephpit\Crypto;
+
 class Symetric
 {
-
+    /**
+     * @var string Algorithm
+     */
     private $cipher;
-    private $mode;
+    /**
+     * @var string Key
+     */
     private $key;
+    /**
+     * @var string Initialization vector
+     */
     private $iv;
     private $encoding = 'base64';
 
@@ -25,12 +26,12 @@ class Symetric
      */
     public function __construct($cipher, $mode, $key)
     {
-
         if (!in_array($cipher, $this->getCiphers())) {
             $cipher = Mcrypt2Openssl::get($cipher, $mode, strlen($key));
 
-            if (empty($cipher) || !in_array($cipher, $this->getCiphers()))
+            if (empty($cipher) || !in_array($cipher, $this->getCiphers())) {
                 throw new Exception('Cipher not available');
+            }
         }
 
         $keysize = Mcrypt2Openssl::getKeySize($cipher);
@@ -41,7 +42,6 @@ class Symetric
         }
 
         $this->cipher = $cipher;
-        $this->mode = $mode;
         $this->key = $key;
     }
 
@@ -64,14 +64,10 @@ class Symetric
         if (!empty($this->iv) && strlen($this->iv) === $iv_size) {
             return;
         } else if (!empty($this->iv)) {
-            trigger_error('Wrong size for the initialization vector, should be '.$iv_size.' long', E_USER_WARNING);
+            trigger_error('Wrong size for the initialization vector, should be ' . $iv_size . ' long', E_USER_WARNING);
         }
 
         $this->iv = openssl_random_pseudo_bytes($iv_size);
-
-        if ($this->iv === false) {
-            throw new Exception('Unable to create initialization vector');
-        }
     }
 
     public function getIV()
@@ -80,8 +76,8 @@ class Symetric
     }
 
     /**
-     * 	Define initialization vector
-     * 	@param string $iv Initialization vector
+     *  Define initialization vector
+     *  @param string $iv Initialization vector
      */
     public function setIV(string $iv)
     {
@@ -122,7 +118,7 @@ class Symetric
     /**
      * Decrypt crypted string
      * @param string $crypt_encode Crypted and base64 encoded string
-     * @return string $string Decrypted string
+     * @return string|false $string Decrypted string
      */
     public function decrypt($crypt_encode)
     {
@@ -141,8 +137,9 @@ class Symetric
         if ($crypt != '') {
             $string = openssl_decrypt($crypt, $this->cipher, $this->key, OPENSSL_RAW_DATA, $this->iv);
 
-            if ($string === false)
+            if ($string === false) {
                 throw new Exception(openssl_error_string());
+            }
 
             return $string;
         } else {
@@ -185,5 +182,4 @@ class Symetric
     {
         return openssl_get_cipher_methods();
     }
-
 }

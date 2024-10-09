@@ -1,9 +1,9 @@
 <?php
-namespace Flex\Crypto;
+
+namespace Pephpit\Crypto;
 
 class Asymetric
 {
-
     private $padding = OPENSSL_PKCS1_PADDING;
     private $public_key;
     private $private_key;
@@ -12,7 +12,7 @@ class Asymetric
     /**
      * Define padding
      * @param int $padding OPENSSL padding value
-     * @return \Flex\Crypto\Asymetric
+     * @return \Pephpit\Crypto\Asymetric
      * @throws \InvalidArgumentException
      */
     public function setPadding($padding)
@@ -28,7 +28,7 @@ class Asymetric
     /**
      * Define public key
      * @param string $public_key
-     * @return \Flex\Crypto\Asymetric
+     * @return \Pephpit\Crypto\Asymetric
      */
     public function setPublicKey($public_key)
     {
@@ -40,7 +40,7 @@ class Asymetric
      * Define private key
      * @param string $private_key
      * @param string $pass
-     * @return \Flex\Crypto\Asymetric
+     * @return \Pephpit\Crypto\Asymetric
      */
     public function setPrivateKey($private_key, $pass = null)
     {
@@ -52,7 +52,7 @@ class Asymetric
     /**
      * Define public key from a file
      * @param string $public_key_filename
-     * @return \Flex\Crypto\Asymetric
+     * @return \Pephpit\Crypto\Asymetric
      * @throws \InvalidArgumentException
      */
     public function setPublicKeyFile($public_key_filename)
@@ -70,7 +70,7 @@ class Asymetric
      * Define private key from a file
      * @param string $private_key_filename
      * @param string $pass
-     * @return \Flex\Crypto\Asymetric
+     * @return \Pephpit\Crypto\Asymetric
      * @throws \InvalidArgumentException
      */
     public function setPrivateKeyFile($private_key_filename, $pass = null)
@@ -211,5 +211,4 @@ class Asymetric
 
         return $decrypt;
     }
-
 }

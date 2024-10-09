@@ -1,7 +1,7 @@
 <?php
-namespace Flex\Crypto;
+
+namespace Pephpit\Crypto;
 
 class Exception extends \Exception
 {
-
 }

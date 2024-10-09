@@ -1,15 +1,15 @@
 <?php
-namespace Flex\Crypto\tests\units;
 
-use Flex\Crypto\Mcrypt2Openssl as TestedClass;
-use mageekguy\atoum;
+namespace Pephpit\Crypto\tests\units;
 
-class Mcrypt2Openssl extends atoum\test
+use Pephpit\Crypto\Mcrypt2Openssl as TestedClass;
+use atoum;
+
+class Mcrypt2Openssl extends atoum
 {
-
     public function testGetBlowfish()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_BLOWFISH, MCRYPT_MODE_CBC, 56);
         $this->string($cipher)->isEqualTo('bf-cbc');
 
@@ -31,7 +31,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetCast128()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_CAST_128, MCRYPT_MODE_CBC, 16);
         $this->string($cipher)->isEqualTo('cast5-cbc');
 
@@ -53,7 +53,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetDES()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_DES, MCRYPT_MODE_CBC, 8);
         $this->string($cipher)->isEqualTo('des-cbc');
 
@@ -75,7 +75,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetAES128()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC, 16);
         $this->string($cipher)->isEqualTo('aes-128-cbc');
 
@@ -97,7 +97,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetAES192()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC, 24);
         $this->string($cipher)->isEqualTo('aes-192-cbc');
 
@@ -119,7 +119,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetAES256()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC, 32);
         $this->string($cipher)->isEqualTo('aes-256-cbc');
 
@@ -141,7 +141,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleDES()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_TRIPLEDES, MCRYPT_MODE_CBC, 8);
         $this->string($cipher)->isEqualTo('des-cbc');
 
@@ -163,7 +163,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleDES_EDE()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_TRIPLEDES, MCRYPT_MODE_CBC, 16);
         $this->string($cipher)->isEqualTo('des-ede-cbc');
 
@@ -185,7 +185,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleDES_EDE3()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_TRIPLEDES, MCRYPT_MODE_CBC, 24);
         $this->string($cipher)->isEqualTo('des-ede3-cbc');
 
@@ -207,13 +207,14 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleRC4()
     {
-
+        TestedClass::defineMcryptConstants();
         $cipher = TestedClass::get(MCRYPT_ARCFOUR, MCRYPT_MODE_STREAM, 256);
         $this->string($cipher)->isEqualTo('rc4-40');
     }
 
     public function testGetBlowfishKeySize()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('bf-cbc');
         $this->integer($size)->isEqualTo(56);
 
@@ -229,6 +230,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetCast128Size()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('cast5-cbc');
         $this->integer($size)->isEqualTo(16);
 
@@ -244,6 +246,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetDESSize()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('des-cbc');
         $this->integer($size)->isEqualTo(8);
 
@@ -262,6 +265,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetAES128Size()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('aes-128-cbc');
         $this->integer($size)->isEqualTo(16);
 
@@ -280,6 +284,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetAES192Size()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('aes-192-cbc');
         $this->integer($size)->isEqualTo(24);
 
@@ -298,6 +303,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetAES256Size()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('aes-256-cbc');
         $this->integer($size)->isEqualTo(32);
 
@@ -316,6 +322,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleDESSize()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('des-cbc');
         $this->integer($size)->isEqualTo(8);
 
@@ -334,6 +341,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleDES_EDESize()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('des-ede-cbc');
         $this->integer($size)->isEqualTo(16);
 
@@ -349,6 +357,7 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleDES_EDE3Size()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('des-ede3-cbc');
         $this->integer($size)->isEqualTo(24);
 
@@ -367,14 +376,15 @@ class Mcrypt2Openssl extends atoum\test
 
     public function testGetTripleRC4Size()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('rc4-40');
         $this->integer($size)->isEqualTo(256);
     }
 
     public function testGetDefaultSize()
     {
+        TestedClass::defineMcryptConstants();
         $size = TestedClass::getKeySize('xtea-cbc');
         $this->integer($size)->isEqualTo(16);
     }
-
 }

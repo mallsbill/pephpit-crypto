@@ -1,10 +1,10 @@
 <?php
-namespace Flex\Crypto\tests\units;
+namespace Pephpit\Crypto\tests\units;
 
-use Flex\Crypto\Substitution as TestedClass;
-use mageekguy\atoum;
+use Pephpit\Crypto\Substitution as TestedClass;
+use atoum;
 
-class Substitution extends atoum\test
+class Substitution extends atoum
 {
 
     public function testGeneratePbox()

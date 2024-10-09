@@ -1,9 +1,9 @@
 <?php
-namespace Flex\Crypto;
+
+namespace Pephpit\Crypto;
 
 class Substitution
 {
-
     private $key;
     private $pbox = array();
 
@@ -18,10 +18,10 @@ class Substitution
     }
 
     /**
-     * 	Subsitute string
-     * 	@param string $string String to substitute
-     * 	@param string $pbox Substitution box
-     * 	@return string Substituted string
+     *  Subsitute string
+     *  @param string $string String to substitute
+     *  @param array $pbox Substitution box
+     *  @return string Substituted string
      */
     private function substitute($string, $pbox)
     {
@@ -29,7 +29,7 @@ class Substitution
         $string_substituted = '';
 
         for ($i = 0; $i < $length; $i++) {
-            $string_substituted .= $string[$pbox[$i]];
+            $string_substituted .= $string[(int) $pbox[$i]];
         }
         return $string_substituted;
     }
@@ -44,9 +44,8 @@ class Substitution
     {
         if (empty($this->key)) {
             throw new \LogicException('key can\'t be empty');
-        }
-        // key should have same length than string
-        else if (strlen($this->key) > count($this->pbox[0])) {
+        } else if (strlen($this->key) > count($this->pbox[0])) {
+            // key should have same length than string
             $key = substr($this->key, 0, count($this->pbox[0]));
         } else if (strlen($this->key) < count($this->pbox[0])) {
             $key = str_pad($this->key, count($this->pbox[0]), $this->key);
@@ -80,9 +79,9 @@ class Substitution
     }
 
     /**
-     * 	Decrypt crypted string
-     * 	@param string $crypt Crypted string
-     * 	@return string Decrypted string
+     *  Decrypt crypted string
+     *  @param string $crypt Crypted string
+     *  @return string Decrypted string
      */
     public function decrypt($crypt)
     {
@@ -100,7 +99,6 @@ class Substitution
 
     /**
      * Return a PBox
-     * @param array $choices
      * @param int $dimension
      * @return array PBox array
      */
@@ -117,5 +115,4 @@ class Substitution
 
         return $pbox;
     }
-
 }

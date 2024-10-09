@@ -1,9 +1,9 @@
 <?php
-namespace Flex\Crypto;
+
+namespace Pephpit\Crypto;
 
 class Mcrypt2Openssl
 {
-
     /**
      * Return OpenSSL cipher name for a Mcrypt cipher name and mode name
      * Return null if no corresponding cipher
@@ -15,107 +15,115 @@ class Mcrypt2Openssl
      */
     public static function get($cipher, $mode, $keylength)
     {
-        self::defineMcryptConstants();
-
-        if ($cipher == MCRYPT_BLOWFISH || $cipher == MCRYPT_BLOWFISH_COMPAT) {
-            if ($mode == MCRYPT_MODE_CBC)
+        if ($cipher == 'blowfish' || $cipher == 'blowfish-compat') {
+            if ($mode == 'cbc') {
                 return 'bf-cbc';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'bf-ecb';
-            else if ($mode == 'ncfb' || $mode == MCRYPT_MODE_CFB)
+            } else if ($mode == 'ncfb' || $mode == 'cfb') {
                 return 'bf-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB || $mode == MCRYPT_MODE_OFB)
+            } else if ($mode == 'nofb' || $mode == 'ofb') {
                 return 'bf-ofb';
-        } else if ($cipher == MCRYPT_CAST_128) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'cast-128') {
+            if ($mode == 'cbc') {
                 return 'cast5-cbc';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'cast5-ecb';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'cast5-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'cast5-ofb';
-        } else if ($cipher == MCRYPT_DES) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'des') {
+            if ($mode == 'cbc') {
                 return 'des-cbc';
-            else if ($mode == MCRYPT_MODE_CFB)
+            } else if ($mode == 'cfb') {
                 return 'des-cfb8';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'des-ecb';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'des-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'des-ofb';
-        } else if ($cipher == MCRYPT_RIJNDAEL_128 && $keylength == 16) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'rijndael-128' && $keylength == 16) {
+            if ($mode == 'cbc') {
                 return 'aes-128-cbc';
-            else if ($mode == MCRYPT_MODE_CFB)
+            } else if ($mode == 'cfb') {
                 return 'aes-128-cfb8';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'aes-128-ecb';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'aes-128-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'aes-128-ofb';
-        } else if ($cipher == MCRYPT_RIJNDAEL_128 && $keylength == 24) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'rijndael-128' && $keylength == 24) {
+            if ($mode == 'cbc') {
                 return 'aes-192-cbc';
-            else if ($mode == MCRYPT_MODE_CFB)
+            } else if ($mode == 'cfb') {
                 return 'aes-192-cfb8';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'aes-192-ecb';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'aes-192-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'aes-192-ofb';
-        } else if ($cipher == MCRYPT_RIJNDAEL_128 && $keylength == 32) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'rijndael-128' && $keylength == 32) {
+            if ($mode == 'cbc') {
                 return 'aes-256-cbc';
-            else if ($mode == MCRYPT_MODE_CFB)
+            } else if ($mode == 'cfb') {
                 return 'aes-256-cfb8';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'aes-256-ecb';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'aes-256-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'aes-256-ofb';
-        } else if ($cipher == MCRYPT_TRIPLEDES && $keylength == 8) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'tripledes' && $keylength == 8) {
+            if ($mode == 'cbc') {
                 return 'des-cbc';
-            else if ($mode == MCRYPT_MODE_CFB)
+            } else if ($mode == 'cfb') {
                 return 'des-cfb8';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'des-ecb';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'des-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'des-ofb';
-        } else if ($cipher == MCRYPT_TRIPLEDES && $keylength == 16) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'tripledes' && $keylength == 16) {
+            if ($mode == 'cbc') {
                 return 'des-ede-cbc';
-            /* else if($mode == MCRYPT_MODE_CFB)
-              return 'des-ede-cfb8'; */
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'des-ede';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'des-ede-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'des-ede-ofb';
-        } else if ($cipher == MCRYPT_TRIPLEDES && $keylength == 24) {
-            if ($mode == MCRYPT_MODE_CBC)
+            }
+        } else if ($cipher == 'tripledes' && $keylength == 24) {
+            if ($mode == 'cbc') {
                 return 'des-ede3-cbc';
-            else if ($mode == MCRYPT_MODE_CFB)
+            } else if ($mode == 'cfb') {
                 return 'des-ede3-cfb8';
-            else if ($mode == MCRYPT_MODE_ECB)
+            } else if ($mode == 'ecb') {
                 return 'des-ede3';
-            else if ($mode == 'ncfb')
+            } else if ($mode == 'ncfb') {
                 return 'des-ede3-cfb';
-            else if ($mode == MCRYPT_MODE_NOFB)
+            } else if ($mode == 'nofb') {
                 return 'des-ede3-ofb';
-        } else if ($cipher == MCRYPT_ARCFOUR) {
-            if ($mode == MCRYPT_MODE_STREAM)
+            }
+        } else if ($cipher == 'arcfour') {
+            if ($mode == 'stream') {
                 return 'rc4-40';
+            }
         }
+
+        return null;
     }
 
     public static function getKeySize($openssl_cipher)
@@ -146,8 +154,9 @@ class Mcrypt2Openssl
 
     public static function defineMcryptConstants()
     {
-        if (defined('MCRYPT_ENCRYPT') === true)
+        if (defined('MCRYPT_ENCRYPT') === true) {
             return;
+        }
 
         define('MCRYPT_ENCRYPT', 0);
         define('MCRYPT_DECRYPT', 1);
@@ -191,5 +200,4 @@ class Mcrypt2Openssl
         define('MCRYPT_MODE_OFB', "ofb");
         define('MCRYPT_MODE_STREAM', "stream");
     }
-
 }

@@ -1,4 +1,4 @@
-Flex \ Crypto
+Pephpit \ Crypto
 =============
 
 Librairies de cryptage ou d'ofuscation
@@ -12,26 +12,23 @@ Ajouter à votre composer.json, le dépot suivant
 	"repositories": [
         {
             "type": "composer",
-            "url": "http://packagist.flex-multimedia.dev/"
+            "url": "https://github.com/mallsbill/pephpit-crypto.git"
         }
     ]
 
- et ajouter au require
-
-	"flex/crypto": "0.*"
-
+composer require pephpit/crypto
 
 Exemple d'utilisation cryptage Symetric
 ---------------------------------------
 
 Encrypt
 
-	$symetric = new \Flex\Crypto\Symetric('bf-ofb', null, 'mykey');
+	$symetric = new \Pephpit\Crypto\Symetric('bf-ofb', null, 'mykey');
 	$my_string_crypted = $symetric->encrypt('my string');
 
 Decrypt
 
-	$symetric = new \Flex\Crypto\Symetric('bf-ofb', null, 'mykey');
+	$symetric = new \Pephpit\Crypto\Symetric('bf-ofb', null, 'mykey');
 	$my_string_decrypted = $symetric->decrypt($my_string_crypted);
 
 Exemple d'utilisation cryptage Asymetric
@@ -45,13 +42,13 @@ Génération des clés privé et public
 
 Encrypt
 
-	$asymetric = new \Flex\Crypto\Asymetric();
+	$asymetric = new \Pephpit\Crypto\Asymetric();
 	$asymetric->setPublicKeyFile('public.crt');
 	$my_string_crypted = $asymetric->publicEncrypt('my string');
 
 Decrypt
 
-	$asymetric = new \Flex\Crypto\Asymetric();
+	$asymetric = new \Pephpit\Crypto\Asymetric();
 	$asymetric->setPrivateKeyFile('private.key');
 	$my_string_decrypted = $asymetric->privateDecrypt($my_string_crypted);
 
@@ -60,7 +57,7 @@ Exemple d'utilisation cryptage par Substitution
 
 Génération des pbox
 
-	$substitution = new \Flex\Crypto\Substitution('', array());
+	$substitution = new \Pephpit\Crypto\Substitution('', array());
 	$pbox = $substitution->generatePBox();
 	echo json_encode($pbox);
 
@@ -76,7 +73,7 @@ Encrypt
 		[20,2,0,1,19,8,3,17,6,24,7,28,12,22,5,13,15,10,4,11,25,26,27,18,23,16,9,21,14,29]
 	];
 	
-	$substitution = new \Flex\Crypto\Substitution('mykey', $pbox);
+	$substitution = new \Pephpit\Crypto\Substitution('mykey', $pbox);
 	$my_string_crypted = $substitution->encrypt('my string');
 
 Decrypt
@@ -87,7 +84,7 @@ Decrypt
 		[20,2,0,1,19,8,3,17,6,24,7,28,12,22,5,13,15,10,4,11,25,26,27,18,23,16,9,21,14,29]
 	];
 	
-	$substitution = new \Flex\Crypto\Substitution('mykey', $pbox);
+	$substitution = new \Pephpit\Crypto\Substitution('mykey', $pbox);
 	$my_string_decrypted = $substitution->decrypt($my_string_crypted);
 
 

@@ -3,10 +3,10 @@
 spl_autoload_register(function ($class) {
 	
     // project-specific namespace prefix
-    $prefix = 'Flex\\Crypto\\';
+    $prefix = 'Pephpit\\Crypto\\';
 
     // base directory for the namespace prefix
-    $base_dir = __DIR__ . '/../lib/';
+    $base_dir = __DIR__ . '/src/';
 
     // does the class use the namespace prefix?
     $len = strlen($prefix);
@@ -29,4 +29,4 @@ spl_autoload_register(function ($class) {
     }
 });
 
-require_once "../vendor/autoload.php";
+require_once __DIR__ . "/vendor/autoload.php";

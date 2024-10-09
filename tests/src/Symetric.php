@@ -1,10 +1,10 @@
 <?php
-namespace Flex\Crypto\tests\units;
+namespace Pephpit\Crypto\tests\units;
 
-use Flex\Crypto\Symetric as TestedClass;
-use mageekguy\atoum;
+use Pephpit\Crypto\Symetric as TestedClass;
+use atoum;
 
-class Symetric extends atoum\test
+class Symetric extends atoum
 {
 
     public function testGetCiphers()
@@ -20,7 +20,6 @@ class Symetric extends atoum\test
 
     public function testCryptDecryptBF_CBC()
     {
-
         $key = 'xcCLTuw1rv';
         $string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
 
@@ -37,7 +36,6 @@ class Symetric extends atoum\test
 
     public function testCryptDecryptBF_NOFB()
     {
-
         $key = 'xcCLTuw1rv';
         $string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
 
@@ -54,7 +52,6 @@ class Symetric extends atoum\test
 
     public function testCryptDecryptCAST128()
     {
-
         $key = 'xcCLTuw1rv';
         $string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
 
@@ -72,7 +69,6 @@ class Symetric extends atoum\test
 
     public function testDecryptBFWithMcrypt()
     {
-
         if (function_exists('mcrypt_decrypt') === false)
             return;
 
@@ -95,7 +91,6 @@ class Symetric extends atoum\test
 
     public function testDecryptCAST128WithMcrypt()
     {
-
         if (function_exists('mcrypt_decrypt') === false)
             return;
 
@@ -118,7 +113,6 @@ class Symetric extends atoum\test
 
     public function testCryptDecryptCAST128IV()
     {
-
         $key = 'xcCLTuw1rv';
         $string = 'hdLo2gGU459fUy0ICXpFMXpRXJpYT8TbjqCv48J0xMtDjKvpEh';
 

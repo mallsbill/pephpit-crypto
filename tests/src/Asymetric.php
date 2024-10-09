@@ -1,10 +1,10 @@
 <?php
-namespace Flex\Crypto\tests\units;
+namespace Pephpit\Crypto\tests\units;
 
-use Flex\Crypto\Asymetric as TestedClass;
-use mageekguy\atoum;
+use Pephpit\Crypto\Asymetric as TestedClass;
+use atoum;
 
-class Asymetric extends atoum\test
+class Asymetric extends atoum
 {
 
     public function testCryptDecryptPublic()
